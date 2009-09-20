@@ -1,6 +1,6 @@
  
 
-package org.mite.jsurf;
+package org.javasurf.base;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
  
 
-package org.mite.jsurf;
+package org.javasurf.base;
 
 /**
  * Generic interface for a IDescriptor class. A IDescriptor extracts descriptor

@@ -1,14 +1,10 @@
  
 
-package org.mite.jsurf;
+package org.javasurf.base;
 
 /**
  * A standard implementation of the HAAR_Convolution interface.
  * 
- * @author Alessandro Martini, Claudio Fantacci
- */
-
-/*
  *       -----------------------------------------------> x
  *       |       x1     x2    x3        x1          x3
  *       |     y1  -----------       y1  -----------
@@ -36,7 +32,7 @@ public class HAARConvolution implements IHAARconvolution {
 		this.integralImage = integralImage;
 	}
 
-	public float makeConvolutionDx(int x, int y, float _scale) {
+	public float makeConvolutionDx(int x, int y, float scale) {
 
 		int x1, x2, x3, y1, y3;
 
@@ -44,18 +40,18 @@ public class HAARConvolution implements IHAARconvolution {
 		 * Calculation of points x1, x2, x3, y1, y2, y3. The center of the filter
 		 * is at (x,y) and it is 2*_scale large.
 		 */
-		x1 = (int) (x - _scale);
-		x2 = (int) x;
-		x3 = (int) (x + _scale);
-		y1 = (int) (y - _scale);
-		y3 = (int) (y + _scale);
+		x1 = (int) (x - scale);
+		x2 =   x;
+		x3 = (int) (x + scale);
+		y1 = (int) (y - scale);
+		y3 = (int) (y + scale);
 
-		return (integralImage.getIntegralSquare(x1, y1, x2, y3) - integralImage
-				.getIntegralSquare(x2, y1, x3, y3));
+		return (integralImage.getIntegralSquare(x1, y1, x2, y3) -
+                        integralImage.getIntegralSquare(x2, y1, x3, y3));
 
 	}
 
-	public float makeConvolutionDy(int x, int y, float _scale) {
+	public float makeConvolutionDy(int x, int y, float scale) {
 
 		int x1, x3, y1, y2, y3;
 
@@ -63,11 +59,11 @@ public class HAARConvolution implements IHAARconvolution {
 		 * Calculation of points x1, x2, x3, y1, y2, y3. The center of the filter
 		 * is at (x,y) and it is 2*_scale large.
 		 */
-		x1 = (int) (x - _scale);
-		x3 = (int) (x + _scale);
-		y1 = (int) (y - _scale);
-		y2 = (int) y;
-		y3 = (int) (y + _scale);
+		x1 = (int) (x - scale);
+		x3 = (int) (x + scale);
+		y1 = (int) (y - scale);
+		y2 =   y;
+		y3 = (int) (y + scale);
 
 		return (-integralImage.getIntegralSquare(x1, y1, x3, y2) + integralImage.getIntegralSquare(x1, y2, x3, y3));
 

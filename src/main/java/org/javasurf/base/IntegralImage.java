@@ -1,4 +1,4 @@
-package org.mite.jsurf;
+package org.javasurf.base;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -8,12 +8,14 @@ import java.awt.image.BufferedImage;
  * integral image representation of supplied input image. Calculates pixel sums
  * over upright rectangular areas.
  * 
- * @author Alessandro Martini, Claudio Fantacci
+ * @author Alessandro Martini, Claudio Fantacci,Mite Mitreski
  */
 public class IntegralImage implements IIntegralImage {
 
     private float[][] integralValues;
     private BufferedImage img;
+    private int width=0;
+    private int height=0;
 
     /**
      * Constructor of IntegralImage. The constructor receives the image and
@@ -30,51 +32,38 @@ public class IntegralImage implements IIntegralImage {
      * pixel immediately above the pixel being processed.</li>
      * </ul>
      */
-    public IntegralImage(BufferedImage img, BufferedImage parent) {
-
-        this.img = img;
-        integralValues = new float[img.getHeight()][img.getWidth()];
-        for (int i = 0; i < img.getHeight()-1; i++) {
-
+    public IntegralImage(BufferedImage image) {
+        this.img = image;
+        width=img.getWidth();
+        height=img.getHeight();
+        integralValues = new float[height][width];
+        for (int i = 0; i < height - 1; i++) {
             float sumOfTheCurrentRow = 0;
-            for (int j = 0; j < img.getWidth()-1; j++) {
-//parent.
+            for (int j = 0; j < width - 1; j++) {
                 float[] cacheHsbValue = new float[3];
-//                System.out.println(i+" "+j);
-                int what = img.getRGB(j, i);
-                Color.RGBtoHSB((what >> 16) & 0xff, (what >> 8) & 0xff,
-                        what & 0xff, cacheHsbValue);
-
-                sumOfTheCurrentRow += cacheHsbValue[2] * 255; //Mozno e da ne e vaka
+                int what = image.getRGB(j, i);
+                Color.RGBtoHSB((what >> 16) & 0xff, (what >> 8) & 0xff, what & 0xff, cacheHsbValue);
+                sumOfTheCurrentRow += cacheHsbValue[2] * 255;
                 if (i > 0) {
-
                     integralValues[i][j] = integralValues[i - 1][j] + sumOfTheCurrentRow;
-
                 } else {
-
                     integralValues[i][j] = sumOfTheCurrentRow;
-
                 }
             }
         }
     }
 
     public float getIntegralValue(int x, int y) {
-
-        if ((y < 0 || y >= img.getHeight()) || (x < 0 || x >= img.getWidth())) {
-
+// POSSIBLE EXCEPTION retrun ((y < 0 || y >= img.getHeight()) || (x < 0 || x >= img.getWidth()))  if problems are found
+        if ( ( y >= height) || (  x >= width)) { 
             return 0;
-
         } else {
-
             return integralValues[y][x];
-
         }
-
     }
 
     public float getIntegralSquare(int xA, int yA, int xD, int yD) {
-
+   
         float A = getIntegralValue(xA, yA);
         float D = getIntegralValue(xD, yD);
         float B = getIntegralValue(xD, yA);

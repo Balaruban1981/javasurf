@@ -1,5 +1,5 @@
  
-package org.mite.jsurf;
+package org.javasurf.base;
 
 import java.util.ArrayList;
 
@@ -39,32 +39,12 @@ public class SURFdescriptor implements IDescriptor {
 		this.haarConvolution = new HAARConvolution(integralImage);
 	}
 
-	/*
-	 * This schema helps to understand how the method works.
-	 * 
-	 *  --------------------------------> x
-	 * |
-	 * |   x1,y1 --- --- --- --- x2,y2
-	 * |        |   |   |   |   |
-	 * |        |---|---|---|---|
-	 * |        |   |   |   |   |
-	 * |        |---|---|---|---|
-	 * |        |   |   |   |   |
-	 * |        |---|---|---|---|
-	 * |        |   |   |   |   |
-	 * |   x4,y4 --- --- --- --- x3,y3
-	 * |
-	 * v
-	 * y
-	 * 
-	 */
-	public void generateAllDescriptors() {
+ 	public void generateAllDescriptors() {
 
 		float[] ValueDescriptor = new float[64];
 		InterestPoint currentIP;
 		int x1, y1, x2, y4;
-		;
-		int xf, yf;
+	        int xf, yf;
 
 		for (int i = 0; i < interest_points.size(); i++) {
 

@@ -5,18 +5,22 @@
 package org.mite.test;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import org.mite.jsurf.IDescriptor;
-import org.mite.jsurf.IDetector;
-import org.mite.jsurf.ISURFfactory;
-import org.mite.jsurf.InterestPoint;
-import org.mite.jsurf.SURF;
+import org.javasurf.base.IDescriptor;
+import org.javasurf.base.IDetector;
+import org.javasurf.base.ISURFfactory;
+import org.javasurf.base.InterestPoint;
+import org.javasurf.base.SURF;
 
 /**
  *
@@ -25,9 +29,10 @@ import org.mite.jsurf.SURF;
 public class Test {
 
     static ArrayList interest_points;
-    static float threshold = 600;
+    static float threshold = 800;
     static float balanceValue = (float) 0.9;
-    static int octaves = 10;
+    static int octaves = 5;
+
 
     public static void main(String argv[]) {
 
@@ -36,9 +41,9 @@ public class Test {
 
 
         try {
-            File file = new File("M:/IMAGE_DATABASE/Car/1.jpg");
+            File file = new File("M:/test/ieee.JPG");
             img = ImageIO.read(file);
-            BufferedImage parent = img;
+//            BufferedImage parent = img;
             ISURFfactory mySURF = SURF.createInstance(img, balanceValue, threshold, octaves, img);
             IDetector detector = mySURF.createDetector();
             interest_points = detector.generateInterestPoints();
@@ -50,7 +55,15 @@ public class Test {
 
             ex.printStackTrace();
         }
-        drawInterestPoints();
+     drawInterestPoints();
+     drawDescriptors();
+        File out =new File("M:/test/out.jpg");
+        try {
+            ImageIO.write(img, "PNG", out);
+        } catch (IOException ex) {
+            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
+   
 
 
         JFrame frame = new JFrame();
@@ -70,20 +83,20 @@ public class Test {
         for (int i = 0; i < interest_points.size(); i++) {
 
             InterestPoint IP = (InterestPoint) interest_points.get(i);
-            IP.drawPosition();
+            IP.drawPosition(5,new Color(200,200,200));
 
         }
 
     }
 
-    void drawDescriptors() {
+    static void drawDescriptors() {
 
         System.out.println("Drawing Descriptors...");
 
         for (int i = 0; i < interest_points.size(); i++) {
 
             InterestPoint IP = (InterestPoint) interest_points.get(i);
-            IP.drawDescriptor();
+            IP.drawDescriptor(new Color(255,0,0));
 
         }
 

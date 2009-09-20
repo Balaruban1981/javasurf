@@ -1,17 +1,10 @@
  
 
-package org.mite.jsurf;
+package org.javasurf.base;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
-/**
- * A standard implementation of the ISURFfactory interface.
- * 
- * @author Alessandro Martini, Claudio Fantacci
- */
-
-public class SURF implements ISURFfactory {
+ public class SURF implements ISURFfactory {
 
 	private static SURF instance;
 	private IIntegralImage integralImage;
@@ -80,30 +73,23 @@ public class SURF implements ISURFfactory {
 	 */
 	public static SURF createInstance(BufferedImage img, float threshold, int octaves,
 			BufferedImage parent) {
-
 		if (instance == null) {
-
 			instance = new SURF(img, threshold, octaves, parent);
-
 		} else {
-
 			instance.setIntegralImage(img);
 			instance.setOctaves(octaves);
 			instance.setThreshold(threshold);
-
 		}
-
 		return instance;
-
 	}
 
-	/*
+	/**
 	 * Constructor of SURF. The constructor is private to prevent any
 	 * possibility to create an instance without the Singleton method.
 	 */
 	private SURF(BufferedImage img, float balanceValue, float threshold, int steps,
 			BufferedImage parent) {
-		this.integralImage = new IntegralImage(img, parent);
+		this.integralImage = new IntegralImage(img );
 		this.imgHeight = img.getHeight();
 		this.imgWidth = img.getWidth();
 		this.balanceValue = balanceValue;
@@ -118,7 +104,7 @@ public class SURF implements ISURFfactory {
 	 * Singleton method.
 	 */
 	private SURF(BufferedImage img, float threshold, int steps, BufferedImage parent) {
-		this.integralImage = new IntegralImage(img, parent);
+		this.integralImage = new IntegralImage(img);
 		this.imgHeight = img.getHeight();
 		this.imgWidth = img.getWidth();
 		this.balanceValue = 0.9f;
@@ -141,7 +127,7 @@ public class SURF implements ISURFfactory {
 	}
 
 	public void setIntegralImage(BufferedImage img) {
-		this.integralImage = new IntegralImage(img, parent);
+		this.integralImage = new IntegralImage(img);
 	}
 
 	public float getBalanceValue() {

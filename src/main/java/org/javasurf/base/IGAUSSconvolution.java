@@ -1,5 +1,5 @@
  
-package org.mite.jsurf;
+package org.javasurf.base;
 
 /**
  * Generic interface for a class that calculates the convolution of an image
